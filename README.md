@@ -9,7 +9,7 @@ This is WIP, particulary:
 
 The latest developmental code can be installed with
 
-`devtools::install_github("waternumbers/FKF")`
+`devtools::install_github("waternumbers/tinyfiledialogR")`
 
 Feel free to raise an issue or pull request to address these or any other
 problems.
