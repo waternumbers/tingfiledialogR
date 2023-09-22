@@ -1,6 +1,6 @@
 Package: tinyfiledialogsR
 Type: Package
-Title: An R wrapper for the tinyfiledialogs C code, providing device independent dialogs
+Title: An R Package for Device Independent Dialogs
 Version: 0.0.1
 Date: 2023-09-21
 Authors@R: 
@@ -9,15 +9,14 @@ Authors@R:
            	role = c("aut", "cre"),
            	email = "paul@waternumbers.co.uk",
            	comment = c(ORCID = "0000-0002-0034-3412")),
-		person(given = "tinyfiledialogs",family = "creators",role = c("aut"))	     
+	     person(given = "Guillaume",
+	        family = "Vareille",
+		role = c("aut"),
+		email = "tinyfiledialogs@ysengrin.com")	     
 	     )
-Description: An R wrapper for the tinyfiledialogs C code, providing device independent dialogs. See the demo to explore the dialogs interactively. 
-License: GPL (>= 2)
+Description: This package in an R wrapper for the tinyfiledialogs C code, providing device independent dialogs. See the demo to explore the dialogs interactively. 
+License: Zlib
 Encoding: UTF-8
 ByteCompile: true
 Suggests: tinytest
-Imports:
-	Rcpp
-LinkingTo:
-	Rcpp
 RoxygenNote: 7.2.3

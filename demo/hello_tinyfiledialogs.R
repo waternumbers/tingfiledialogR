@@ -3,15 +3,16 @@
 tinyfd_beep()
 
 
-lWillBeGraphicMode <- tinyfd_messageBox("tinyfd_query", "");
+details <- tinyfd_details()
 
-if(!lWillBeGraphicMode) { stop("We can't run interactively and there is no console mode yet!!") }
+if(!details$isGUI) { stop("We can't run interactively and there is no console mode yet!!") }
 
-lBuffer <- paste0("tinyfiledialogs\nv",tinyfd_version(),"\ngraphic mode: ",tinyfd_response())
+lBuffer <- paste0("tinyfiledialogs\nv",details$version,"\ngraphic mode: ",details$response)
 tinyfd_messageBox("hello", lBuffer, "ok", "info", 0);
 
 
 tinyfd_notifyPopup("the title", "the message\n\tfrom outer-space", "info");
+tinyfd_notifyPopup("asdfasdf", "asdfasdf", "info");
 
 ## yes = 1, no = 2, cancel = 0
 lIntValue <- tinyfd_messageBox("Hello World", "graphic dialogs [Yes]\n console mode [No]\n quit [Cancel]",
