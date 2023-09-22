@@ -7,3 +7,4 @@ $.git$
 ^build_scripts$
 ^prebuilt$
 ^\.github$
+LICENSE.md
