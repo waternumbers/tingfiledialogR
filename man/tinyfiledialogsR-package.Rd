@@ -4,16 +4,16 @@
 \name{tinyfiledialogsR-package}
 \alias{tinyfiledialogsR-package}
 \alias{_PACKAGE}
-\title{tinyfiledialogsR: An R wrapper for the tinyfiledialogs C code, providing device independent dialogs}
+\title{tinyfiledialogsR: An R Package for Device Independent Dialogs}
 \description{
-An R wrapper for the tinyfiledialogs C code, providing device independent dialogs. See the demo to explore the dialogs interactively.
+This package in an R wrapper for the tinyfiledialogs C code, providing device independent dialogs. See the demo to explore the dialogs interactively.
 }
 \author{
 \strong{Maintainer}: Paul Smith \email{paul@waternumbers.co.uk} (\href{https://orcid.org/0000-0002-0034-3412}{ORCID})
 
 Authors:
 \itemize{
-  \item tinyfiledialogs creators
+  \item Guillaume Vareille \email{tinyfiledialogs@ysengrin.com}
 }
 
 }
