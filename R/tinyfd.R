@@ -1,8 +1,9 @@
 
+char2Raw <- function(x){ charToRaw( enc2utf8 (x) ) }
+
 #' @export
 tinyfd_beep <- function(){
-    tfdR_beep()
-    ##.Call("tfdR_beep")
+    .C("tfd_beep")
 }
 
 ## * return has only meaning for tinyfd_query */
@@ -15,7 +16,12 @@ tinyfd_notifyPopup <- function(title,message,icon=c("info","warning","error")){
     icon <- match.arg(icon)
     title <- paste(title)
     message <- paste(message)
-    tfdR_notifyPopup(title,message,icon)
+    result <- .C("tfd_notifyPopup",
+                 char2Raw(title),
+                 char2Raw(message),
+                 char2Raw(icon),
+                 integer(1))
+    return(result[[4]])
 }
 
 ## int tinyfd_messageBox(
@@ -33,9 +39,15 @@ tinyfd_messageBox <- function(title,message,type=c("ok","okcancel","yesno","yesn
     icon <- match.arg(icon)
     button <- as.integer(button)
     if( !(button %in% 0:2) ){ stop("Invalid button option") }
-    title <- paste(title)
-    message <- paste(message)
-    tfdR_messageBox(title,message,type,icon,button)
+    title <- enc2utf8(paste(title))
+    message <- enc2utf8(paste(message))
+    result <- .C("tfd_messageBox",
+                 char2Raw(title),
+                 char2Raw(message),
+                 char2Raw(type),
+                 char2Raw(icon),
+                 as.integer(button))
+    return(result[[5]])
 }
 
 #' @export
@@ -43,7 +55,12 @@ tinyfd_inputBox <- function(title,message,defaultInput){
     title <- paste(title)
     message <- paste(message)
     defaultInput <- paste(defaultInput)
-    tfdR_inputBox(title,message,defaultInput)
+    result <- .C("tfd_inputBox",
+                 char2Raw(title),
+                 char2Raw(message),
+                 char2Raw(defaultInput))
+    return( result[[3]] )
+    ##tfdR_inputBox(title,message,defaultInput)
 }
 
 ## char const * aTitle , /* NULL or "" */
@@ -58,9 +75,16 @@ tinyfd_saveFileDialog <- function(title, defaultFileAndPath=".",filterPatterns,f
     filterPatterns <- as.character(filterPatterns)
     nFilterPatterns <- length(filterPatterns)
     filterDescripton <- paste(filterDescription)
-    tfdR_saveFileDialog(title, defaultFileAndPath,
-                        nFilterPatterns, filterPatterns,
-                        filterDescription)
+    result <- .C("tfd_saveFileDialog",
+                 char2Raw(title),
+                 defaultFileAndPath,
+                 nFilterPatterns,
+                 filterPatterns,
+                 char2Raw(filterDescription))
+    return( result[[2]] )
+    ## tfdR_saveFileDialog(title, defaultFileAndPath,
+    ##                     nFilterPatterns, filterPatterns,
+    ##                     filterDescription)
 }
 
 #' @export
@@ -71,26 +95,51 @@ tinyfd_openFileDialog <- function(title, defaultFileAndPath=".",filterPatterns,f
     nFilterPatterns <- length(filterPatterns)
     filterDescripton <- paste(filterDescription)
     allowMultiple <- as.integer(as.logical(allowMultiple))
-    tfdR_openFileDialog(title, defaultFileAndPath,
-                        nFilterPatterns, filterPatterns,
-                        filterDescription,allowMultiple)
+    result <- .C("tfd_openFileDialog",
+                 char2Raw(title),
+                 char2Raw(defaultFileAndPath),
+                 nFilterPatterns,
+                 char2Raw(filterPatterns),
+                 char2Raw(filterDescription),
+                 allowMultiple)
+    return( result[[2]] )
+    
+    ## tfdR_openFileDialog(title, defaultFileAndPath,
+    ##                     nFilterPatterns, filterPatterns,
+    ##                     filterDescription,allowMultiple)
 }
 
 #' @export
 tinyfd_selectFolderDialog <- function(title, defaultPath="."){
     title <- paste(title)
     defaultPath <- paste(defaultPath)
-    tfdR_selectFolderDialog(title, defaultPath)
+    result <- .C("tfd_selectFolderDialog",
+                 char2Raw(title),
+                 defaultPath)
+    return( result[[2]] )
+    ##tfdR_selectFolderDialog(title, defaultPath)
 }
 
 #' @export
 tinyfd_colorChooser <- function(title, defaultHex="#FF0000"){
     title <- paste(title)
     defaultHex <- paste(defaultHex)
-    tfdR_colorChooser(title, defaultHex)
+    result <- .C("tfd_colorChooser",
+                 char2Raw(title),
+                 defaultHex)
+    return( result[[2]] )
+    ##tfdR_colorChooser(title, defaultHex)
 }
 
 #' @export
-tinyfd_version <- function(){ tfdR_version() }
-#' @export
-tinyfd_response <- function(){ tfdR_response() }
+tinyfd_details <- function(){
+    out <- list(response = character(0),
+                isGUI = integer(1))
+    result <- .C("tfd_details",
+                 integer(1),
+                 character(1),
+                 character(1))
+    result[[1]] <- as.logical(result[[1]])
+    names(result) <- c("isGUI","response","version")
+    return(result)
+}
