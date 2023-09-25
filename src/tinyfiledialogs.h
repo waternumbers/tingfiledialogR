@@ -67,6 +67,8 @@ Make sure your code is really prepared for UTF-8 (on windows, functions like fop
 extern int tinyfd_winUtf8; /* on windows char strings can be 1:UTF-8(default) or 0:MBCS */
 /* for MBCS change this to 0, in tinyfiledialogs.c or in your code */
 
+#include <stddef.h> // added for Rtools4.3 - might not be the best place PJS
+
 /* Here are some functions to help you convert between UTF-16 UTF-8 MBSC */
 char * tinyfd_utf8toMbcs(char const * aUtf8string);
 char * tinyfd_utf16toMbcs(wchar_t const * aUtf16string);
