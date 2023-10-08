@@ -83,7 +83,7 @@ The output of `tinydf_messageBox` depends on the `type` used. In all cases clsoi
 \item{yesnocancel}{`yes=1`, `no=2`, `cancel=0`}
 }
 
-`tinyfd_inputBox` returns the text string entered.
+`tinyfd_inputBox` returns the text string entered. For a hidden input field (e.g. for passwords) then set the default value to "hidden_input".
 
 `tinyfd_saveFileDialog` and `tinyfd_openFileDialog` return the full path (or paths if the `allowMultiple` option is used) to the files selected.
 

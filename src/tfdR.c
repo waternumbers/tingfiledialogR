@@ -2,6 +2,12 @@
 #include <Rdefines.h>
 #include "tinyfiledialogs.h"
 #include <string.h>
+
+// Define strict headers
+#define STRICT_R_HEADERS
+// Map printf to Rprintf
+#define printf Rprintf
+
 /* Modified prototypes for R */
 
 void tfd_details(
