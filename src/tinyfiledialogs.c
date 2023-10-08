@@ -5146,8 +5146,7 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 								{
 										printf("\n%s\n",aMessage);
 								}
-								// printf("y/n: "); fflush(stdout);
-								Rprintf("y/n: "); // PJS for R
+								printf("y/n: "); //fflush(stdout);
 								lChar = (char) tolower( getchar() ) ;
 								printf("\n\n");
 						}
@@ -5162,8 +5161,7 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 								{
 										printf("\n%s\n",aMessage);
 								}
-								//printf("[O]kay/[C]ancel: "); fflush(stdout);
-								Rprintf("[O]kay/[C]ancel: "); // PJS for R
+								printf("[O]kay/[C]ancel: "); //fflush(stdout);
 								lChar = (char) tolower( getchar() ) ;
 								printf("\n\n");
 						}
@@ -5178,8 +5176,7 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 								{
 										printf("\n%s\n",aMessage);
 								}
-								//printf("[Y]es/[N]o/[C]ancel: "); fflush(stdout);
-								Rprintf("[Y]es/[N]o/[C]ancel: "); // PJS for R
+								printf("[Y]es/[N]o/[C]ancel: "); //fflush(stdout);
 								lChar = (char) tolower( getchar() ) ;
 								printf("\n\n");
 						}
@@ -5192,8 +5189,7 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 						{
 								printf("\n%s\n\n",aMessage);
 						}
-						//printf("press enter to continue "); fflush(stdout);
-						Rprintf("press enter to continue "); // PJS for R
+						printf("press enter to continue "); //fflush(stdout);
 						getchar() ;
 						printf("\n\n");
 						lResult = 1 ;
@@ -5942,8 +5938,7 @@ frontmost of process \\\"Python\\\" to true' ''');");
 				{
 						printf("\n%s\n",aMessage);
 				}
-				//printf("(esc+enter to cancel): "); fflush(stdout);
-				Rprintf("(esc+enter to cancel): "); // PJS for R
+				printf("(esc+enter to cancel): "); //fflush(stdout);
 				if ( ! aDefaultInput )
 				{
 						tcgetattr(STDIN_FILENO, & oldt) ;
