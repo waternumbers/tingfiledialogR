@@ -12,7 +12,6 @@ tinyfd_messageBox("hello", lBuffer, "ok", "info", 0);
 
 
 tinyfd_notifyPopup("the title", "the message\n\tfrom outer-space", "info");
-tinyfd_notifyPopup("asdfasdf", "asdfasdf", "info");
 
 ## yes = 1, no = 2, cancel = 0
 lIntValue <- tinyfd_messageBox("Hello World", "graphic dialogs [Yes]\n console mode [No]\n quit [Cancel]",
@@ -21,7 +20,7 @@ lIntValue <- tinyfd_messageBox("Hello World", "graphic dialogs [Yes]\n console m
 if( lIntValue == 2 ){ stop("No handled the console case yet...") }
 if( lIntValue == 0 ){ stop("Goodbye - you've chosen to cancel") }
 
-lPassword = tinyfd_inputBox("a password box", "your password will be revealed later", "");
+lPassword = tinyfd_inputBox("a password box", "your password will be revealed later", "hidden_input");
 
 if (nchar(lPassword) == 0 ){ stop("You need to give a password") }
 

@@ -29,15 +29,15 @@ tinyfd_inputBox(title, message, defaultInput = "")
 tinyfd_saveFileDialog(
   title,
   defaultPathAndFile = ".",
-  filterPatterns = "",
-  filterDescription = ""
+  filterPatterns = "*.*",
+  filterDescription = "All Files"
 )
 
 tinyfd_openFileDialog(
   title,
   defaultPathAndFile = ".",
-  filterPatterns = "",
-  filterDescription = "",
+  filterPatterns = "*.*",
+  filterDescription = "All files",
   allowMultiple = FALSE
 )
 
