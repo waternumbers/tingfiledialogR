@@ -62,6 +62,13 @@ misrepresented as being the original software.
 #include <ctype.h>
 #include <sys/stat.h>
 
+// extra bits for R - PJS
+#include <R_ext/Print.h>
+#ifdef _WIN32
+ #include <stddef.h> // added for Rtools4.3 - might not be the best place PJS
+#endif
+
+
 #ifdef _WIN32
  #ifdef __BORLANDC__
   #define _getch getch
@@ -5139,7 +5146,8 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 								{
 										printf("\n%s\n",aMessage);
 								}
-								printf("y/n: "); fflush(stdout);
+								// printf("y/n: "); fflush(stdout);
+								Rprintf("y/n: "); // PJS for R
 								lChar = (char) tolower( getchar() ) ;
 								printf("\n\n");
 						}
@@ -5154,7 +5162,8 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 								{
 										printf("\n%s\n",aMessage);
 								}
-								printf("[O]kay/[C]ancel: "); fflush(stdout);
+								//printf("[O]kay/[C]ancel: "); fflush(stdout);
+								Rprintf("[O]kay/[C]ancel: "); // PJS for R
 								lChar = (char) tolower( getchar() ) ;
 								printf("\n\n");
 						}
@@ -5169,7 +5178,8 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 								{
 										printf("\n%s\n",aMessage);
 								}
-								printf("[Y]es/[N]o/[C]ancel: "); fflush(stdout);
+								//printf("[Y]es/[N]o/[C]ancel: "); fflush(stdout);
+								Rprintf("[Y]es/[N]o/[C]ancel: "); // PJS for R
 								lChar = (char) tolower( getchar() ) ;
 								printf("\n\n");
 						}
@@ -5182,7 +5192,8 @@ my \\$notificationsObject = \\$notificationsService->get_object('/org/freedeskto
 						{
 								printf("\n%s\n\n",aMessage);
 						}
-						printf("press enter to continue "); fflush(stdout);
+						//printf("press enter to continue "); fflush(stdout);
+						Rprintf("press enter to continue "); // PJS for R
 						getchar() ;
 						printf("\n\n");
 						lResult = 1 ;
@@ -5931,7 +5942,8 @@ frontmost of process \\\"Python\\\" to true' ''');");
 				{
 						printf("\n%s\n",aMessage);
 				}
-				printf("(esc+enter to cancel): "); fflush(stdout);
+				//printf("(esc+enter to cancel): "); fflush(stdout);
+				Rprintf("(esc+enter to cancel): "); // PJS for R
 				if ( ! aDefaultInput )
 				{
 						tcgetattr(STDIN_FILENO, & oldt) ;

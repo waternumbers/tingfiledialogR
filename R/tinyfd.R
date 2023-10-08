@@ -66,13 +66,6 @@ tinyfd_notifyPopup <- function(title,message,icon=c("info","warning","error")){
     return(result$out)
 }
 
-## int tinyfd_messageBox(
-## 		char const * aTitle, /* NULL or "" */
-## 		char const * aMessage, /* NULL or ""  may contain \n and \t */
-## 		char const * aDialogType, /* "ok" "okcancel" "yesno" "yesnocancel" */
-## 		char const * aIconType, /* "info" "warning" "error" "question" */
-##         int aDefaultButton) /* 0 for cancel/no , 1 for ok/yes , 2 for no in yesnocancel */
-
 #' @describeIn tinyfd_beep Various types of message box
 #' @export
 tinyfd_messageBox <- function(title,message,type=c("ok","okcancel","yesno","yesnocancel"),
@@ -93,64 +86,59 @@ tinyfd_messageBox <- function(title,message,type=c("ok","okcancel","yesno","yesn
 #' @describeIn tinyfd_beep collect text input
 #' @export
 tinyfd_inputBox <- function(title,message,defaultInput=""){
-    result <- .C("tfd_inputBox",
+    result <- .Call("tfd_inputBox",
                  aTitle = toSingleStr(title),
                  aMessage = toSingleStr(message),
                  aiDefaultInput = toSingleStr(defaultInput))
-    return( result$aiDefaultInput )
+    return( result )
 }
 
-## char const * aTitle , /* NULL or "" */
-## char const * aDefaultPathAndFile , /* NULL or "" */
-## int aNumOfFilterPatterns , /* 0 */
-## char const * const * aFilterPatterns , /* NULL or {"*.jpg","*.png"} */
-## char const * aSingleFilterDescription ) /* NULL or "image files" */
 #' @describeIn tinyfd_beep select file to save in
 #' @export
-tinyfd_saveFileDialog <- function(title, defaultPathAndFile=".",filterPatterns="",filterDescription=""){
-    result <- .C("tfd_saveFileDialog",
-                 aTitle = toSingleStr(title),
-                 aiDefaultPathAndFile = toSingleStr(defaultPathAndFile),
-                 aNumOfFilterPatterns = as.integer(length(filterPatterns)),
-                 aFilterPatterns = toMultiStr(filterPatterns),
-                 aSingleFilterDescription = toSingleStr(filterDescription))
-    return( result$aiDefaultPathAndFile )
-    ## tfdR_saveFileDialog(title, defaultFileAndPath,
-    ##                     nFilterPatterns, filterPatterns,
-    ##                     filterDescription)
+tinyfd_saveFileDialog <- function(title, defaultPathAndFile=".",filterPatterns="*.*",filterDescription="All Files"){
+    result <- .Call("tfd_saveFileDialog",
+                    aTitle = toSingleStr(title),
+                    aiDefaultPathAndFile = toSingleStr(defaultPathAndFile),
+                    aNumOfFilterPatterns = as.integer(length(filterPatterns)),
+                    aFilterPatterns = toMultiStr(filterPatterns),
+                    aSingleFilterDescription = toSingleStr(filterDescription))
+    return( result )
 }
 
 #' @describeIn tinyfd_beep select file(s) to open
 #' @export
 tinyfd_openFileDialog <- function(title, defaultPathAndFile=".",
-                                  filterPatterns="",filterDescription="", allowMultiple=FALSE){
+                                  filterPatterns="*.*",filterDescription="All files", allowMultiple=FALSE){
     allowMultiple <- as.logical(allowMultiple)
-    result <- .C("tfd_openFileDialog",
-                 aTitle = toSingleStr(title),
-                 aiDefaultPathAndFile = toSingleStr(defaultPathAndFile),
-                 aNumOfFilterPatterns = as.integer(length(filterPatterns)),
-                 aFilterPatterns = toMultiStr(filterPatterns),
-                 aSingleFilterDescription = toSingleStr(filterDescription),
-                 aAllowMultipleSelects = as.integer(allowMultiple))
-    return( result$aiDefaultPathAndFile )
+    result <- .Call("tfd_openFileDialog",
+                    aTitle = title, ##toSingleStr(title),
+                    aiDefaultPathAndFile = defaultPathAndFile, ##toSingleStr(defaultPathAndFile),
+                    aNumOfFilterPatterns = as.integer(length(filterPatterns)),
+                    aFilterPatterns = toMultiStr(filterPatterns),
+                    aSingleFilterDescription = filterDescription, ##toSingleStr(filterDescription),
+                    aAllowMultipleSelects = as.integer(allowMultiple))
+    if(allowMultiple){
+        result <- strsplit(result,"[|]")[[1]]
+    }
+    return( result )
 }
 
 #' @describeIn tinyfd_beep select folder
 #' @export
 tinyfd_selectFolderDialog <- function(title, defaultPath="."){
-    result <- .C("tfd_selectFolderDialog",
-                 aTitle = toSingleStr(title),
-                 aiDefaultPath = toSingleStr(defaultPath))
-    return( result$aiDefaultPath )
+    result <- .Call("tfd_selectFolderDialog",
+                    aTitle = toSingleStr(title),
+                    aiDefaultPath = toSingleStr(defaultPath))
+    return( result )
 }
 
 #' @describeIn tinyfd_beep select a color
 #' @export
 tinyfd_colorChooser <- function(title, defaultHex="#FF0000"){
-    result <- .C("tfd_colorChooser",
-                 aTitle = toSingleStr(title),
-                 aiDefaultHexRGB = toSingleStr(defaultHex))
-    return( result$aiDefaultHexRGB )
+    result <- .Call("tfd_colorChooser",
+                    aTitle = toSingleStr(title),
+                    aiDefaultHexRGB = toSingleStr(defaultHex))
+    return( result )
 }
 
 #' @describeIn tinyfd_beep provide details of the tinyfiledialogs installation
