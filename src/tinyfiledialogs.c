@@ -62,13 +62,6 @@ misrepresented as being the original software.
 #include <ctype.h>
 #include <sys/stat.h>
 
-// extra bits for R - PJS
-#include <R_ext/Print.h>
-#ifdef _WIN32
- #include <stddef.h> // added for Rtools4.3 - might not be the best place PJS
-#endif
-
-
 #ifdef _WIN32
  #ifdef __BORLANDC__
   #define _getch getch
@@ -94,6 +87,7 @@ misrepresented as being the original software.
 #endif /* _WIN32 */
 
 #include "tinyfiledialogs.h"
+#include "tfdR_extra.h"
 
 #define MAX_PATH_OR_CMD 1024 /* _MAX_PATH or MAX_PATH */
 
@@ -303,9 +297,10 @@ static void RGB2Hex( unsigned char const aRGB[3], char aoResultHexRGB[8] )
 				if ( aRGB )
 				{
 #if (defined(__cplusplus ) && __cplusplus >= 201103L) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__clang__)
-	sprintf(aoResultHexRGB, "#%02hhx%02hhx%02hhx", aRGB[0], aRGB[1], aRGB[2]);
+				  //sprintf(aoResultHexRGB, "#%02hhx%02hhx%02hhx", aRGB[0], aRGB[1], aRGB[2]);
+				  snprintf(aoResultHexRGB, 8, "#%02hhx%02hhx%02hhx", aRGB[0], aRGB[1], aRGB[2]);
 #else
-	sprintf(aoResultHexRGB, "#%02hx%02hx%02hx", aRGB[0], aRGB[1], aRGB[2]);
+				  snprintf(aoResultHexRGB, 8,"#%02hx%02hx%02hx", aRGB[0], aRGB[1], aRGB[2]);
 #endif
 						 /*printf("aoResultHexRGB %s\n", aoResultHexRGB);*/
 				}
@@ -805,9 +800,9 @@ static void RGB2HexW( unsigned char const aRGB[3], wchar_t aoResultHexRGB[8])
 				{
 						/* wprintf(L"aoResultHexRGB %s\n", aoResultHexRGB); */
 #if !defined(__BORLANDC__) && !defined(__TINYC__) && !(defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR))
-										swprintf(aoResultHexRGB, 8, lPrintFormat, aRGB[0], aRGB[1], aRGB[2]);
+				  swprintf(aoResultHexRGB, 8, lPrintFormat, aRGB[0], aRGB[1], aRGB[2]);
 #else
-										swprintf(aoResultHexRGB, lPrintFormat, aRGB[0], aRGB[1], aRGB[2]);
+				  swprintf(aoResultHexRGB, lPrintFormat, aRGB[0], aRGB[1], aRGB[2]);
 #endif
 
 				}
@@ -1247,7 +1242,7 @@ wchar_t * tinyfd_inputBoxW(
 
 		if (aDefaultInput)
 		{
-						swprintf(lDialogString,
+		  swprintf(lDialogString,
 #if !defined(__BORLANDC__) && !defined(__TINYC__) && !(defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR))
 				lDialogStringLen,
 #endif
@@ -1255,7 +1250,7 @@ wchar_t * tinyfd_inputBoxW(
 		}
 		else
 		{
-				swprintf(lDialogString,
+						swprintf(lDialogString,
 #if !defined(__BORLANDC__) && !defined(__TINYC__) && !(defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR))
 						lDialogStringLen,
 #endif
@@ -4116,7 +4111,7 @@ static int tkinter3Present(void)
 				lTkinter3Present = 0 ;
 				if ( python3Present() )
 				{
-						sprintf( lPythonCommand , "%s %s" , gPython3Name , lPythonParams ) ;
+				  snprintf( lPythonCommand , 256,"%s %s" , gPython3Name , lPythonParams ) ; //PJS
 						lTkinter3Present = tryCommand(lPythonCommand) ;
 				}
 				if (tinyfd_verbose) printf("lTkinter3Present %d\n", lTkinter3Present) ;
@@ -4137,7 +4132,7 @@ static int tkinter2Present(void)
 				lTkinter2Present = 0 ;
 				if ( python2Present() )
 				{
-						sprintf( lPythonCommand , "%s %s" , gPython2Name , lPythonParams ) ;
+				  snprintf( lPythonCommand , 256,"%s %s" , gPython2Name , lPythonParams ) ; //PJS
 						lTkinter2Present = tryCommand(lPythonCommand) ;
 				}
 				if (tinyfd_verbose) printf("lTkinter2Present %d graphicMode %d \n", lTkinter2Present, graphicMode() ) ;
@@ -4161,14 +4156,15 @@ notify=dbus.Interface(notif,'org.freedesktop.Notifications');\nexcept:\n\tprint(
 				if ( python2Present() )
 				{
 						strcpy(gPythonName , gPython2Name ) ;
-						sprintf( lPythonCommand , "%s %s" , gPythonName , lPythonParams ) ;
+						snprintf( lPythonCommand , 384, "%s %s" , gPythonName , lPythonParams ) ; // PJS
+						
 						lPythonDbusPresent = tryCommand(lPythonCommand) ;
 				}
 
 				if ( !lPythonDbusPresent && python3Present() )
 				{
 						strcpy(gPythonName , gPython3Name ) ;
-						sprintf( lPythonCommand , "%s %s" , gPythonName , lPythonParams ) ;
+						snprintf( lPythonCommand , 384, "%s %s" , gPythonName , lPythonParams ) ;
 						lPythonDbusPresent = tryCommand(lPythonCommand) ;
 				}
 
@@ -5088,7 +5084,7 @@ my \\$notificationsService = \\$sessionBus->get_service('org.freedesktop.Notific
 my \\$notificationsObject = \\$notificationsService->get_object('/org/freedesktop/Notifications',\
 'org.freedesktop.Notifications');");
 
-								sprintf( lDialogString + strlen(lDialogString),
+								snprintf( lDialogString + strlen(lDialogString),MAX_PATH_OR_CMD + lTitleLen + lMessageLen,
 "my \\$notificationId;\\$notificationId = \\$notificationsObject->Notify(shift, 0, '%s', '%s', '%s', [], {}, -1);\" ",
 														aIconType?aIconType:"", aTitle?aTitle:"", aMessage?aMessage:"" ) ;
 		}
@@ -5361,7 +5357,7 @@ my \\$notificationsService = \\$sessionBus->get_service('org.freedesktop.Notific
 my \\$notificationsObject = \\$notificationsService->get_object('/org/freedesktop/Notifications',\
 'org.freedesktop.Notifications');");
 
-				sprintf( lDialogString + strlen(lDialogString) ,
+				snprintf( lDialogString + strlen(lDialogString) , MAX_PATH_OR_CMD + lTitleLen + lMessageLen, // PJS
 "my \\$notificationId;\\$notificationId = \\$notificationsObject->Notify(shift, 0, '%s', '%s', '%s', [], {}, -1);\" ",
 aIconType?aIconType:"", aTitle?aTitle:"", aMessage?aMessage:"" ) ;
 		}
@@ -7415,13 +7411,13 @@ char * tinyfd_colorChooser(
 to set mycolor to choose color default color {");
 				}
 
-				sprintf(lTmp, "%d", 256 * lDefaultRGB[0] ) ;
+				snprintf(lTmp, 128, "%d", 256 * lDefaultRGB[0] ) ;//PJS
 				strcat(lDialogString, lTmp ) ;
 				strcat(lDialogString, "," ) ;
-				sprintf(lTmp, "%d", 256 * lDefaultRGB[1] ) ;
+				snprintf(lTmp, 128, "%d", 256 * lDefaultRGB[1] ) ;//PJS
 				strcat(lDialogString, lTmp ) ;
 				strcat(lDialogString, "," ) ;
-				sprintf(lTmp, "%d", 256 * lDefaultRGB[2] ) ;
+				snprintf(lTmp, 128, "%d", 256 * lDefaultRGB[2] ) ;//PJS
 				strcat(lDialogString, lTmp ) ;
 				strcat(lDialogString, "}' " ) ;
 				strcat( lDialogString ,
@@ -7444,7 +7440,7 @@ to set mycolor to choose color default color {");
 				{
 						strcat(lDialogString, " --attach=$(xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2)"); /* contribution: Paul Rouget */
 				}
-				sprintf( lDialogString + strlen(lDialogString) , " --getcolor --default '%s'" , lDefaultHexRGB ) ;
+								snprintf( lDialogString + strlen(lDialogString) , MAX_PATH_OR_CMD, " --getcolor --default '%s'" , lDefaultHexRGB ) ;//PJS
 
 				if ( aTitle && strlen(aTitle) )
 				{
@@ -7485,7 +7481,7 @@ to set mycolor to choose color default color {");
 						}
 				}
 				strcat( lDialogString , " --color-selection --show-palette" ) ;
-				sprintf( lDialogString + strlen(lDialogString), " --color=%s" , lDefaultHexRGB ) ;
+				snprintf( lDialogString + strlen(lDialogString), MAX_PATH_OR_CMD, " --color=%s" , lDefaultHexRGB ) ;// PJS
 
 				strcat(lDialogString, " --title=\"") ;
 				if (aTitle && strlen(aTitle)) strcat(lDialogString, aTitle) ;
@@ -7497,7 +7493,7 @@ to set mycolor to choose color default color {");
 		{
 		   if (aTitle && !strcmp(aTitle, "tinyfd_query")) { strcpy(tinyfd_response, "yad"); return (char*)1; }
 		   strcpy(lDialogString, "yad --color");
-		   sprintf(lDialogString + strlen(lDialogString), " --init-color=%s", lDefaultHexRGB);
+		   snprintf(lDialogString + strlen(lDialogString), MAX_PATH_OR_CMD, " --init-color=%s", lDefaultHexRGB); // PJS
 		   if (aTitle && strlen(aTitle))
 		   {
 			  strcat(lDialogString, " --title=\"");
@@ -7517,9 +7513,9 @@ to set mycolor to choose color default color {");
 				}
 				strcat(lDialogString, "\" 0 60 ") ;
 #if (defined(__cplusplus ) && __cplusplus >= 201103L) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__clang__)
-								sprintf(lTmp,"%hhu %hhu %hhu",lDefaultRGB[0],lDefaultRGB[1],lDefaultRGB[2]);
+				snprintf(lTmp,128, "%hhu %hhu %hhu",lDefaultRGB[0],lDefaultRGB[1],lDefaultRGB[2]); // PJS
 #else
-				sprintf(lTmp,"%hu %hu %hu",lDefaultRGB[0],lDefaultRGB[1],lDefaultRGB[2]);
+				snprintf(lTmp,128, "%hu %hu %hu",lDefaultRGB[0],lDefaultRGB[1],lDefaultRGB[2]); // PJS
 #endif
 				strcat(lDialogString, lTmp) ;
 				strcat(lDialogString, " 2>&1");
