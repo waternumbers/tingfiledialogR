@@ -6,8 +6,6 @@
 // Define strict headers
 #define STRICT_R_HEADERS
 
-/* Modified prototypes for R */
-
 void tfd_details(
 		 int * isGUI,
 		 char * * response,
@@ -19,7 +17,7 @@ void tfd_details(
   strcpy ( * version , tinyfd_version );
 }
 
-void tfd_beep(){
+void tfd_beep(void){
   tinyfd_beep();
 }
 
@@ -43,18 +41,6 @@ void tfd_notifyPopup(
 	* out = tinyfd_notifyPopup( *aTitle , *aMessage , *aIconType ) ;
 }
 
-/* void tfd_inputBox( */
-/* 	char * * aTitle , */
-/* 	char * * aMessage , */
-/* 	char * * aiDefaultInput ) */
-/* { */
-/* 	char * lReturnedInput ; */
-/* 	if ( ! strcmp( * aiDefaultInput , "hidden_input") )  lReturnedInput = tinyfd_inputBox( *aTitle , *aMessage , NULL ) ; */
-/* 	else lReturnedInput = tinyfd_inputBox( *aTitle , *aMessage , * aiDefaultInput ) ; */
-
-/* 	if ( lReturnedInput ) strcpy ( * aiDefaultInput , lReturnedInput ) ; */
-/* 	else strcpy ( * aiDefaultInput , "" ) ; */
-/* } */
 SEXP tfd_inputBox(
 		  SEXP aTitle ,
 		  SEXP aMessage ,
@@ -76,23 +62,6 @@ SEXP tfd_inputBox(
   if ( lReturnedInput ) result = Rf_mkString(lReturnedInput);
   return(result);
 }
-
-/* void tfd_saveFileDialog( */
-/* 	char * * aTitle , */
-/* 	char * * aiDefaultPathAndFile , */
-/* 	int const * aNumOfFilterPatterns , */
-/* 	char const * const * aFilterPatterns , */
-/* 	char * * aSingleFilterDescription ) */
-/* { */
-/* 	char * lSavefile ; */
-
-/* 	/\* printf( "aFilterPatterns %s\n" , aFilterPatterns [0]); *\/ */
-
-/* 	lSavefile = tinyfd_saveFileDialog( * aTitle , * aiDefaultPathAndFile , * aNumOfFilterPatterns , */
-/* 										aFilterPatterns, * aSingleFilterDescription ) ; */
-/* 	if ( lSavefile ) strcpy ( * aiDefaultPathAndFile , lSavefile ) ; */
-/* 	else strcpy ( * aiDefaultPathAndFile , "" ) ; */
-/* } */
 
 SEXP tfd_saveFileDialog(
 	SEXP aTitle ,
@@ -120,11 +89,6 @@ SEXP tfd_saveFileDialog(
   UNPROTECT(6);
   return(result);
 }
-
-
-
-
-
 
 SEXP tfd_openFileDialog(
 	SEXP aTitle ,
@@ -157,16 +121,6 @@ SEXP tfd_openFileDialog(
   return(result);
 }
 
-/* void tfd_selectFolderDialog( */
-/* 	char const * * aTitle , */
-/* 	char * * aiDefaultPath ) */
-/* { */
-/* 	char * lSelectedfolder ; */
-/* 	lSelectedfolder = tinyfd_selectFolderDialog( * aTitle, * aiDefaultPath ) ; */
-/* 	if ( lSelectedfolder ) strcpy ( * aiDefaultPath , lSelectedfolder ) ; */
-/* 	else strcpy ( * aiDefaultPath , "" ) ; */
-/* } */
-
 SEXP tfd_selectFolderDialog(
 	SEXP aTitle ,
 	SEXP aiDefaultPath)
@@ -183,22 +137,6 @@ SEXP tfd_selectFolderDialog(
   UNPROTECT(3);
   return(result);
 }
-
-
-
-
-
-/* void tfd_colorChooser( */
-/* 	char const * * aTitle , */
-/* 	char * * aiDefaultHexRGB ) */
-/* { */
-/* 	unsigned char const aDefaultRGB [ 3 ] = {128,128,128}; */
-/* 	unsigned char aoResultRGB [ 3 ] = {128,128,128}; */
-/* 	char * lChosenColor ; */
-/* 	lChosenColor = tinyfd_colorChooser( * aTitle, * aiDefaultHexRGB, aDefaultRGB, aoResultRGB ) ; */
-/* 	if ( lChosenColor ) strcpy ( * aiDefaultHexRGB , lChosenColor ) ; */
-/* 	else strcpy ( * aiDefaultHexRGB , "" ) ; */
-/* } */
 
 SEXP tfd_colorChooser(
 	SEXP aTitle ,

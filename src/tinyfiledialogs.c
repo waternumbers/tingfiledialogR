@@ -56,6 +56,7 @@ misrepresented as being the original software.
 #endif
 #endif
 
+#define _DARWIN_C_SOURCE /* Added to make sure snprintf picked up on some Macs */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -4045,7 +4046,7 @@ static int osx9orBetter(void)
 static int python3Present(void)
 {
 		static int lPython3Present = -1 ;
-		int i;
+		/* int i; */
 
 		if ( lPython3Present < 0 )
 		{

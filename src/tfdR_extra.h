@@ -2,8 +2,5 @@
 #include <R_ext/Print.h>
 #define printf Rprintf
 #ifdef _WIN32
- #include <stddef.h> // added for Rtools4.3 - might not be the best place PJS
+ #include <stddef.h> // added for Rtools4.3
 #endif
-// trying to get mac to compile...
-#define _DARWIN_C_SOURCE
-#include <stdio.h>

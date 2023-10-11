@@ -1,7 +1,7 @@
 Package: tinyfiledialogsR
 Type: Package
 Title: An R Package for Device Independent Dialogs
-Version: 0.0.1
+Version: 0.0.2
 Date: 2023-09-21
 Authors@R: 
 	   c(person(given = "Paul",
