@@ -2,8 +2,8 @@
 % Please edit documentation in R/tinyfilesdialog-package.R
 \docType{package}
 \name{tinyfiledialogsR-package}
+\alias{tinyfiledialogsR}
 \alias{tinyfiledialogsR-package}
-\alias{_PACKAGE}
 \title{tinyfiledialogsR: An R Package for Device Independent Dialogs}
 \description{
 This package in an R wrapper for the tinyfiledialogs C code, providing device independent dialogs. See the demo to explore the dialogs interactively.
